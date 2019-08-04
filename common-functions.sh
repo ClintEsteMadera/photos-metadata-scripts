@@ -7,8 +7,8 @@
 #
 # @returns the timestamp from the file, in the format accepted by "touch"
 function extractDateTimeInTouchFormatFromFilename {
-    file=$1;
-    fileNameWithoutExtension="${file%.*}";
+    filePath=$1;
+    fileNameWithoutExtension="${filePath%.*}";
 
     # Translate from file's name format to the one accepted by "touch"
     tsInTouchFormat=`date -j -f "%Y%m%d_%H%M%S" ${fileNameWithoutExtension} "+%Y%m%d%H%M.%S"`;
@@ -19,16 +19,16 @@ function extractDateTimeInTouchFormatFromFilename {
 
 function fixExifUsingFilename {
   tsInTouchFormat=$1
-  file=$2
+  filePath="$2"
 
   # Translate from the format accepted by touch (e.g. 201005022118.39)
   # to ISO-8601, used on XMP metadata tags and many others (e.g. 2010-05-02T21:18:39-0300)
   isoFormat=`TZ=America/Argentina/Buenos_Aires date -jf "%Y%m%d%H%M.%S" "$tsInTouchFormat" "+%Y-%m-%dT%H:%M:%S%z"`;
 
-  echo "Processing $file using $tsInTouchFormat ($isoFormat)"
+  echo "Processing $filePath using $tsInTouchFormat ($isoFormat)"
 
   # Touch file's last modified date to reflect the actual date/time the video was taken
-  touch -t "$tsInTouchFormat" "$file";
+  touch -t "$tsInTouchFormat" "$filePath";
 
   # -dsft = sets file's last modification time to EXIF (if it doesn't exist, we don't create one for avoiding JHead's destructive override of pre-existing EXIFs)
   # -dx = deletes XMP section which is usually set by Photoshop and causes Google Photos to use the digitalization date rather than the file's last modification date.
@@ -47,7 +47,7 @@ function fixExifUsingFilename {
            -MediaModifyDate="$isoFormat" \
            -TrackCreateDate="$isoFormat" \
            -TrackModifyDate="$isoFormat" \
-           "$file"
+           "$filePath"
 }
 function extensionInLowerCase {
   # crude way of returning a value in Bash

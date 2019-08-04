@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Photos without timezone info have the date/time they were taken set without any timezone reference.
+# This makes, for example, Google, mis-classify photos close to midnight under the wrong date.
+# Usage example: manual-fix-exif-exact-for-single-dir "2015-04-18T20:00:00-0300"
+
+isoFormat=$1
+
+exiftool -P \
+       -overwrite_original_in_place \
+       "-timeZoneOffset=-3" \
+       -api QuickTimeUTC \
+       -mwg:CreateDate="$isoFormat" \
+       -mwg:ModifyDate="$isoFormat" \
+       -mwg:DateTimeOriginal="$isoFormat" \
+       -CreateDate="$isoFormat" \
+       -ModifyDate="$isoFormat" \
+       -DateTimeOriginal="$isoFormat" \
+       -MediaCreateDate="$isoFormat" \
+       -MediaModifyDate="$isoFormat" \
+       -TrackCreateDate="$isoFormat" \
+       -TrackModifyDate="$isoFormat" \
+       *

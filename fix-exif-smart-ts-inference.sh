@@ -30,8 +30,8 @@ DEFAULT_FORMAT=""
 FORMAT_FOR_CURRENT_FILE=""
 
 deriveFormat() {
-	file=$1
-	possibleDate=`echo "$file" | awk '{printf "%s\n", $1}' | sed -e 's/\.\///g'`
+	filePath=$1
+	possibleDate=`echo "$filePath" | awk '{printf "%s\n", $1}' | sed -e 's/\.\///g'`
 
 	year=`echo ${possibleDate} | awk -F- '{printf $1}'`
 	month=`echo ${possibleDate} | awk -F- '{printf $2}'`

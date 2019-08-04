@@ -6,11 +6,20 @@ source common-functions.sh
 # this pattern: <yyyy><mm><dd>_<HH><MM><SS>.<extension>. It'll fix/enrich the EXIF metadata (assumed to be) present in
 # photos and videos, so that they show up at the right date/time in Google Photos
 
-find . -type file | grep -vF -e '.DS_Store' -e '.picasa.ini' | sort -u | while read f
+find . -type file | grep -vF -e '.DS_Store' -e '.picasa.ini' -e '.txt' -e '.zip' | sort -u | while read f
 do
-  file="${f#./}"
+  # remove extension
+  filePath="${f#./}"
 
-  tsInTouchFormat=$(extractDateTimeInTouchFormatFromFilename "$file")
+  # strip out everything except for the file name
+  filename=`echo "$filePath" | awk -F/ '{printf $NF}'`
 
-  fixExifUsingFilename ${tsInTouchFormat} ${file}
+  tsInTouchFormat=$(extractDateTimeInTouchFormatFromFilename "$filename")
+
+  if [[ ${#tsInTouchFormat} -ne 15 ]]; then
+    echo "Could not infer date/time from $filePath, aborting..."
+    exit 1;
+  else
+    fixExifUsingFilename ${tsInTouchFormat} "${filePath}"
+  fi
 done

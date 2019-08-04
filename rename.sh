@@ -12,13 +12,13 @@
 source common-functions.sh
 
 # (Only for images) [-ft] = Set file's last modified date. [-n] = rename all files according to what's in the EXIF field
-jhead -q -ft -n%Y%m%d_%H%M%S `ls -- *.jpg *.JPG 2>/dev/null`
+ls -- *.jpg *.JPG 2>/dev/null | sed 's/ /\\ /g' | xargs jhead -q -ft -n%Y%m%d_%H%M%S
 
 # Rename MOV and PNG files according to their last modified date timestamp
-for f in `ls *.mov *.MOV *.png *.PNG 2>/dev/null` ; do
+for f in `ls *.mov *.MOV *.png *.PNG 2>/dev/null`; do
   if [[ -f "$f" ]]
     then
-      renameFileToLastModifiedTs ${f}
+      renameFileToLastModifiedTs "${f}"
   fi
 done
 
@@ -29,9 +29,9 @@ for f in `ls *.mp4 *.MP4 2>/dev/null` ; do
       if [[ ${f} == P* ]] || [[ ${f} == IMG_* ]]
         then
           # Deal with photos created by Panasonic cameras (P*) or MP4s converted from iPhone's MOVs (IMG_*.MOV)
-          renameFileToLastModifiedTs ${f}
+          renameFileToLastModifiedTs "${f}"
         else
-          extractDateTimeInTouchFormatFromFilename ${f}
+          extractDateTimeInTouchFormatFromFilename "${f}"
       fi
   fi
 done
