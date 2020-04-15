@@ -11,7 +11,7 @@ function extractDateTimeInTouchFormatFromFilename {
     fileNameWithoutExtension="${filePath%.*}";
 
     # Translate from file's name format to the one accepted by "touch"
-    tsInTouchFormat=`date -j -f "%Y%m%d_%H%M%S" ${fileNameWithoutExtension} "+%Y%m%d%H%M.%S"`;
+    tsInTouchFormat=`date -j -f "%Y%m%d_%H%M%S" "${fileNameWithoutExtension}" "+%Y%m%d%H%M.%S"`;
 
     # Our way to return values in Bash, do not echo anything else on this function or you'll break everything
     echo "$tsInTouchFormat";

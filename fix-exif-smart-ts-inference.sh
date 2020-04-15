@@ -83,7 +83,7 @@ main() {
 	elif [[ $# -eq 2 ]]; then
 		# Usage 1: will operate over only a single file using provided params
 		DEFAULT_FORMAT=$1
-		processSingleFile ${DEFAULT_FORMAT} "$2"
+		fixExifUsingFilename ${DEFAULT_FORMAT} "$2"
 		exit 0;
 	fi
 

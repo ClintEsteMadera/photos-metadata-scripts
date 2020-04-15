@@ -12,7 +12,7 @@
 source common-functions.sh
 
 # (Only for images) [-ft] = Set file's last modified date. [-n] = rename all files according to what's in the EXIF field
-ls -- *.jpg *.JPG 2>/dev/null | sed 's/ /\\ /g' | xargs jhead -q -ft -n%Y%m%d_%H%M%S
+ls -- *.jpg *.JPG *.jpeg *.JPEG 2>/dev/null | sed 's/ /\\ /g' | xargs jhead -q -ft -n%Y%m%d_%H%M%S
 
 # Rename MOV and PNG files according to their last modified date timestamp
 for f in `ls *.mov *.MOV *.png *.PNG 2>/dev/null`; do
