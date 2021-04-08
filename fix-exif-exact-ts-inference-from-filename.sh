@@ -2,6 +2,8 @@
 
 source common-functions.sh
 
+tz=$2
+
 for f in $1
 do
   # remove extension
@@ -16,6 +18,6 @@ do
     echo "Could not infer date/time from $filePath, aborting..."
     exit 1;
   else
-    fixExifUsingFilename ${tsInTouchFormat} "${filePath}"
+    fixExifUsingFilename ${tsInTouchFormat} "${filePath}" "$tz"
   fi
 done
