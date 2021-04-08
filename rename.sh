@@ -13,9 +13,12 @@ source common-functions.sh
 
 # (Only for images) [-ft] = Set file's last modified date. [-n] = rename all files according to what's in the EXIF field
 ls -- *.jpg *.JPG *.jpeg *.JPEG 2>/dev/null | sed 's/ /\\ /g' | xargs jhead -q -ft -n%Y%m%d_%H%M%S
+# To-Do: change the above with something like
+# find . -type file | egrep '.jpg|.JPG|.jpeg|.JPEG' | xargs jhead -q -ft -n%Y%m%d_%H%M%S
+# but make it work for sub-directories
 
 # Rename MOV and PNG files according to their last modified date timestamp
-for f in `ls *.mov *.MOV *.png *.PNG 2>/dev/null`; do
+for f in *.mov *.MOV *.png *.PNG; do
   if [[ -f "$f" ]]
     then
       renameFileToLastModifiedTs "${f}"
@@ -23,7 +26,7 @@ for f in `ls *.mov *.MOV *.png *.PNG 2>/dev/null`; do
 done
 
 # Touch last modified timestamps in all MP4 files
-for f in `ls *.mp4 *.MP4 2>/dev/null` ; do
+for f in *.mp4 *.MP4 ; do
   if [[ -f "$f" ]]
     then
       if [[ ${f} == P* ]] || [[ ${f} == IMG_* ]]
