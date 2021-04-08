@@ -23,6 +23,12 @@ function fixExifUsingFilename {
 
   # Translate from the format accepted by touch (e.g. 201005022118.39)
   # to ISO-8601, used on XMP metadata tags and many others (e.g. 2010-05-02T21:18:39-0300)
+  # Some valid examples:
+  # America/Phoenix
+  # America/Los_Angeles
+  # America/New_York
+  # America/Argentina/Buenos_Aires
+  # for other timezones, use "sudo systemsetup -listtimezones"
   isoFormat=`TZ=America/Argentina/Buenos_Aires date -jf "%Y%m%d%H%M.%S" "$tsInTouchFormat" "+%Y-%m-%dT%H:%M:%S%z"`;
 
   echo "Processing $filePath using $tsInTouchFormat ($isoFormat)"
