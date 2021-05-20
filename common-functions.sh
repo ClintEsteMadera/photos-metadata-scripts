@@ -37,7 +37,7 @@ function fixExifUsingFilename {
   # for other timezones, use "sudo systemsetup -listtimezones"
   isoFormat=`TZ=$tz date -jf "%Y%m%d%H%M.%S" "$tsInTouchFormat" "+%Y-%m-%dT%H:%M:%S%z"`;
 
-  echo "Processing $filePath using $tsInTouchFormat ($isoFormat)"
+  echo "Processing "$filePath" using $tsInTouchFormat ($isoFormat)"
 
   # Touch file's last modified date to reflect the actual date/time the video was taken
   touch -t "$tsInTouchFormat" "$filePath";

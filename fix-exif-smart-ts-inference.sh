@@ -90,7 +90,7 @@ main() {
 	find . -type file | grep -vF -e '.DS_Store' -e '.picasa.ini' | sort -u | while read file
 	do
 		deriveFormat "$file"
-		fixExifUsingFilename ${FORMAT_FOR_CURRENT_FILE} ${file}
+		fixExifUsingFilename ${FORMAT_FOR_CURRENT_FILE} "$file"
 	done
 }
 
