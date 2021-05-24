@@ -11,30 +11,22 @@
 
 source common-functions.sh
 
+EXPECTED_FILENAME_REGEX="[0-9]{8}\_[0-9]{6}\.[A-Za-z0-9]{3}"
+
 # (Only for images) [-ft] = Set file's last modified date. [-n] = rename all files according to what's in the EXIF field
 ls -- *.jpg *.JPG *.jpeg *.JPEG 2>/dev/null | sed 's/ /\\ /g' | xargs jhead -q -ft -n%Y%m%d_%H%M%S
 # To-Do: change the above with something like
 # find . -type file | egrep '.jpg|.JPG|.jpeg|.JPEG' | xargs jhead -q -ft -n%Y%m%d_%H%M%S
 # but make it work for sub-directories
 
-# Rename MOV and PNG files according to their last modified date timestamp
-for f in *.mov *.MOV *.png *.PNG; do
-  if [[ -f "$f" ]]
-    then
+# Rename MP4, MOV and PNG files according to their last modified date timestamp
+for f in *.mp4 *.MP4 *.mov *.MOV *.png *.PNG; do
+  if [[ -f "$f" ]]; then
+    if [[ "$f" =~ $EXPECTED_FILENAME_REGEX ]]; then
+      tsInTouchFormat=$(extractDateTimeInTouchFormatFromFilename "${f}")
+      touch -t "$tsInTouchFormat" "$f"
+    else
       renameFileToLastModifiedTs "${f}"
-  fi
-done
-
-# Touch last modified timestamps in all MP4 files
-for f in *.mp4 *.MP4 ; do
-  if [[ -f "$f" ]]
-    then
-      if [[ ${f} == P* ]] || [[ ${f} == IMG_* ]]
-        then
-          # Deal with photos created by Panasonic cameras (P*) or MP4s converted from iPhone's MOVs (IMG_*.MOV)
-          renameFileToLastModifiedTs "${f}"
-        else
-          extractDateTimeInTouchFormatFromFilename "${f}"
-      fi
+    fi
   fi
 done
