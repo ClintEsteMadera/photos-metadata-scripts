@@ -13,6 +13,8 @@ source common-functions.sh
 
 EXPECTED_FILENAME_REGEX="[0-9]{8}\_[0-9]{6}\.[A-Za-z0-9]{3}"
 
+# To-Do: if the JPEG files are already properly named (and with the wrong modification time) the following will break them:
+
 # (Only for images) [-ft] = Set file's last modified date. [-n] = rename all files according to what's in the EXIF field
 ls -- *.jpg *.JPG *.jpeg *.JPEG 2>/dev/null | sed 's/ /\\ /g' | xargs jhead -q -ft -n%Y%m%d_%H%M%S
 # To-Do: change the above with something like
