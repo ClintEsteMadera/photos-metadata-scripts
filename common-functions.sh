@@ -17,6 +17,17 @@ function extractDateTimeInTouchFormatFromFilename {
     echo "$tsInTouchFormat";
 }
 
+function extractDateInTouchFormatFromDirectoryName {
+    dirName=$1;
+    lastFolderName=$(basename "$dirName");
+
+    # Translate from dir name format to the one accepted by "touch"
+    tsInTouchFormat=$(date -j -f "%Y-%m-%d" "${lastFolderName}" "+%Y%m%d0800.00");
+
+    # Our way to return values in Bash, do not echo anything else on this function or you'll break everything
+    echo "$tsInTouchFormat";
+}
+
 function fixExifUsingFilename {
   tsInTouchFormat=$1
   filePath="$2"
@@ -35,7 +46,7 @@ function fixExifUsingFilename {
   # America/New_York
   # America/Argentina/Buenos_Aires
   # for other timezones, use "sudo systemsetup -listtimezones"
-  isoFormat=`TZ=$tz date -jf "%Y%m%d%H%M.%S" "$tsInTouchFormat" "+%Y-%m-%dT%H:%M:%S%z"`;
+  isoFormat=$(TZ=$tz date -jf "%Y%m%d%H%M.%S" "$tsInTouchFormat" "+%Y-%m-%dT%H:%M:%S%z");
 
   echo "Processing $filePath using $tsInTouchFormat ($isoFormat)"
 
