@@ -7,6 +7,7 @@
 isoFormat=$1
 
 exiftool -P \
+       -ignoreMinorErrors \
        -overwrite_original_in_place \
        "-timeZoneOffset=-3" \
        -api QuickTimeUTC \
@@ -21,3 +22,5 @@ exiftool -P \
        -TrackCreateDate="$isoFormat" \
        -TrackModifyDate="$isoFormat" \
        *
+
+jhead -ft *

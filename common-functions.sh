@@ -58,6 +58,7 @@ function fixExifUsingFilename {
   # jhead -dsft -dx "$2"
 
   exiftool -P \
+           -ignoreMinorErrors \
            -overwrite_original_in_place \
            -api QuickTimeUTC \
            -mwg:CreateDate="$isoFormat" \
