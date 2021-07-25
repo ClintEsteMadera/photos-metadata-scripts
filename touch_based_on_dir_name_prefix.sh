@@ -7,3 +7,5 @@ source common-functions.sh
 dateInTouchFormat="$(extractDateInTouchFormatFromDirectoryName "$1")";
 
 touch -t "$dateInTouchFormat" "$1"/*;
+
+jhead -dsft "$1"/*

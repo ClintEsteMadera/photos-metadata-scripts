@@ -36,6 +36,9 @@ function fixExifUsingFilename {
   if [ -z "$tz" ];
   then
       tz="America/Argentina/Buenos_Aires"
+      # tz="Europe/Dublin"
+      # tz = "America/Los_Angeles"
+
   fi
 
   # Translate from the format accepted by touch (e.g. 201005022118.39)
